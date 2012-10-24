@@ -1,3 +1,4 @@
+import Data.List
 import System.Environment (getArgs)
 
 -- Ch. 04 Exercise 3
@@ -14,6 +15,11 @@ getFirstWords :: String -> String
 getFirstWords input =
     unlines (getFirstWordsStep lines)
     where lines = splitLines input
+
+-- Ch. 04 Exercise 4
+
+transposeText :: String -> String
+transposeText text = unlines $ transpose $ lines text
 
 --
 
@@ -40,5 +46,5 @@ main = mainWith myFunction
                 [input,output] -> interactWith function input output
                 _ -> putStrLn "Error: exactly two arguments needed"
 
-          myFunction = getFirstWords
+          myFunction = transposeText
 
