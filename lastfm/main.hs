@@ -1,4 +1,8 @@
+-- Current functionality: run on your lastfm data dump and it
+-- picks a random track for you! That's pretty fun!
+
 import qualified Data.Map
+import Random (randomRIO)
 import System.Environment
 
 parseArgs :: [String] -> String
@@ -40,7 +44,6 @@ mapIdToArtist listens = foldr step (Data.Map.empty) listens
             | (artistMBID listen) /= "" = 
                 (Data.Map.insert (artistMBID listen) (artistName listen) map)
             | otherwise = map
-          
 
 main :: IO ()
 main = do
@@ -48,11 +51,12 @@ main = do
     let dumpfilename = parseArgs args
     contents <- readFile dumpfilename
     let listens = map parseDumpLine (lines contents)
-    let idToArtist = (mapIdToArtist listens)
-    print (Data.Map.lookup "e09983cb-182d-4e45-b085-664800953cf1" idToArtist)
-    print (Data.Map.lookup "9975369b-6fc1-455e-91d4-d3c8b1772e57" idToArtist)
+    --let idToArtist = (mapIdToArtist listens)
+    --print (Data.Map.lookup "e09983cb-182d-4e45-b085-664800953cf1" idToArtist)
+    --print (Data.Map.lookup "9975369b-6fc1-455e-91d4-d3c8b1772e57" idToArtist)
     -- readFile dump
-    putStrLn "Done"
+    listenNum <- randomRIO (0, (length listens) - 1)
+    print (listens !! listenNum)
 
 -- Things to actually do with this code
 -- Index by artist
